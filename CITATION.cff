@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: "CyberDog XR Teleoperation"
+message: "If you use this repository, please cite the associated manuscript."
+type: software
+authors:
+  - family-names: "Stephen"
+    given-names: "Erick"
+repository-code: "https://github.com/StephenErick17/cyberdog-xr-teleoperation"
+license: MIT
+version: 1.0.0
+date-released: 2026-05-08

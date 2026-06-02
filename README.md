@@ -9,7 +9,7 @@ The system was designed as a modular XR–ROS 2 teleoperation platform that enab
 The proposed architecture follows a decoupled design organized into two functional channels: a control channel and a visual perception channel.
 
 <p align="center">
-  <img src="docs/methodology_notes/architecturePNG.png" alt="AR–ROS 2 teleoperation architecture for CyberDog" width="950">
+  <img src="docs/methodology_notes/architectureJPG2.jpg" alt="AR–ROS 2 teleoperation architecture for CyberDog" width="950">
 </p>
 
 <p align="center">

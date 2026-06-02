@@ -1,12 +1,12 @@
-\# Demonstration Video Links
+\# Demonstration Videos
 
 
 
-This file contains external demonstration links associated with the augmented reality teleoperation architecture for Xiaomi CyberDog.
+This file provides external video resources associated with the augmented reality teleoperation architecture implemented with Meta Quest 3, Unity, UDP communication, ROS 2, and Xiaomi CyberDog.
 
 
 
-The videos provide visual evidence of the implemented AR interface, the Meta Quest 3 interaction environment, and the Unity-based visualization workflow.
+The videos present complementary visual evidence of the AR interface, the operator-side visualization environment, and the Unity–Quest interaction workflow.
 
 
 
@@ -14,13 +14,15 @@ The videos provide visual evidence of the implemented AR interface, the Meta Que
 
 
 
-Description: Demonstration of the AR teleoperation interface running on Meta Quest 3, showing the operator-side visualization and interaction workflow.
+\*\*Overview:\*\*  
+
+Demonstration of the AR teleoperation interface running on Meta Quest 3. The video shows the operator-side visualization environment and the interaction workflow used during system operation.
 
 
 
-Platform: YouTube Shorts  
+\*\*Platform:\*\* YouTube Shorts  
 
-Link: https://youtube.com/shorts/mCxixOaBuIU
+\*\*Link:\*\* https://youtube.com/shorts/mCxixOaBuIU
 
 
 
@@ -28,13 +30,15 @@ Link: https://youtube.com/shorts/mCxixOaBuIU
 
 
 
-Description: Complementary demonstration of the AR teleoperation workflow, including additional views of the Meta Quest 3 interface during system operation.
+\*\*Overview:\*\*  
+
+Complementary demonstration of the AR teleoperation workflow. The video provides an additional view of the Meta Quest 3 interface during the operation of the teleoperation system.
 
 
 
-Platform: YouTube Shorts  
+\*\*Platform:\*\* YouTube Shorts  
 
-Link: https://youtube.com/shorts/hcoMqrbQ6V8
+\*\*Link:\*\* https://youtube.com/shorts/hcoMqrbQ6V8
 
 
 
@@ -42,11 +46,13 @@ Link: https://youtube.com/shorts/hcoMqrbQ6V8
 
 
 
-Description: Demonstration of the Unity-based AR interface and its visualization behavior for Meta Quest 3.
+\*\*Overview:\*\*  
+
+Demonstration of the Unity-based AR interface and its visualization behavior for Meta Quest 3. The video illustrates the interface environment used for the CyberDog teleoperation workflow.
 
 
 
-Platform: YouTube  
+\*\*Platform:\*\* YouTube  
 
-Link: https://youtu.be/JiIVLrCXCVE
+\*\*Link:\*\* https://youtu.be/JiIVLrCXCVE
 

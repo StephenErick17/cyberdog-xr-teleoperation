@@ -1,33 +1,63 @@
-# CyberDog XR Teleoperation
+# Immersive XR–ROS 2 Teleoperation Architecture for CyberDog
 
-This repository contains the main materials associated with an immersive teleoperation system for the Xiaomi CyberDog using Meta Quest 3, Unity, UDP communication, and ROS 2.
+This repository contains the main implementation materials associated with an immersive teleoperation architecture for a real quadruped robot, integrating Meta Quest 3, Unity, UDP communication, ROS 2, and Xiaomi CyberDog.
 
-The system integrates an XR-based operator interface, a ROS 2 bridge running on an Ubuntu PC, and a real quadruped robot executing locomotion commands, discrete actions, and visual feedback. The repository is intended to support the reproducibility of the experimental platform, the communication architecture, and the main results reported in the associated research work.
+The system was designed as a modular XR–ROS 2 teleoperation platform that enables continuous locomotion control, discrete robot actions, and live RGB/depth visual feedback within a unified immersive interface. The repository is intended to support the reproducibility of the communication architecture, the experimental platform, and the main implementation components reported in the associated research work.
 
 ## System overview
 
-The architecture is organized into two main communication channels:
+The proposed architecture follows a decoupled design organized into two functional channels: a control channel and a visual perception channel.
 
-1. **Control channel**  
-   Meta Quest 3 → Unity XR Interface → UDP/ROS bridge → ROS 2 Humble → Xiaomi CyberDog with ROS 2 Foxy.
+### Control channel
 
-2. **Visual perception channel**  
-   CyberDog camera → ROS 2 image topic → OpenCV/CvBridge → JPEG compression → UDP video sender → Unity receiver → Quest display.
+```text
+Meta Quest 3 / Unity XR interface
+        ↓ UDP 5005
+Ubuntu Bridge PC
+        ↓ ROS 2 control topics
+Xiaomi CyberDog
+```
 
-## Hardware
+The control channel transmits the operator intention from the Unity-based XR interface to the Ubuntu bridge computer through UDP. The bridge receives locomotion and discrete action commands, translates them into CyberDog-compatible ROS 2 messages, and publishes them to the native control topics of the robot.
 
-- Meta Quest 3
-- Xiaomi CyberDog
-- Ubuntu bridge PC
-- Shared mobile network connection
+### Visual perception channel
 
-## Software
+```text
+Xiaomi CyberDog RGB/depth camera
+        ↓ ROS 2 image topics
+Ubuntu Bridge PC
+        ↓ OpenCV/CvBridge + JPEG compression + UDP 5006
+Meta Quest 3 / Unity XR interface
+```
+
+The visual perception channel acquires RGB or depth frames from the CyberDog camera topics, processes them on the Ubuntu bridge computer, compresses each frame as JPEG, and sends the resulting stream to the Unity interface for in-headset visualization.
+
+This separation between control and perception reduces subsystem coupling, simplifies debugging, and allows the command and visual feedback flows to be evaluated independently.
+
+## Communication design
+
+UDP communication was adopted between the Meta Quest 3 application and the Ubuntu bridge computer instead of a direct Unity–ROS connection through ROS-TCP-Endpoint. This decision was motivated by the need for a lightweight and controllable architecture for standalone execution on Meta Quest 3, considering the network and permission constraints associated with the Android-based runtime environment.
+
+The adopted design separates the Unity interface, UDP transmission, command translation, ROS 2 publication, image processing, and video streaming into independent modules. This improves modularity, reproducibility, and practical debugging during experimental operation.
+
+## Hardware platform
+
+The experimental platform was composed of three main elements:
+
+- **Meta Quest 3**: standalone XR headset used as the operator interface.
+- **Ubuntu Bridge PC**: intermediate computer for UDP communication, ROS 2 bridging, image processing, and video streaming.
+- **Xiaomi CyberDog**: real quadruped robot used for locomotion, discrete action execution, and RGB/depth image acquisition.
+
+In the reported implementation, the bridge computer ran Ubuntu 22.04 with ROS 2 Humble, while the CyberDog used its embedded NVIDIA Jetson Xavier NX platform with Ubuntu 18.04 and ROS 2 Foxy.
+
+## Software components
 
 - Unity 2022.3.4f1
 - OpenXR / Meta Quest support
-- Unity Robotics ROS-TCP Connector
-- ROS 2 Humble on the bridge PC
+- Android build target
+- ROS 2 Humble on the bridge computer
 - ROS 2 Foxy on CyberDog
+- Cyclone DDS
 - Python 3
 - OpenCV
 - CvBridge
@@ -36,39 +66,95 @@ The architecture is organized into two main communication channels:
 
 ```text
 docs/              Architecture diagrams and paper-related figures.
-unity/             Unity scripts for the XR interface.
-ros2_bridge/       ROS 2 and UDP bridge scripts.
+unity/             Unity C# scripts for the XR teleoperation interface.
+ros2_bridge/       ROS 2 bridge scripts for UDP control and video streaming.
 data/              Aggregated objective and subjective results.
-analysis/          Python scripts for generating plots.
+analysis/          Python scripts for generating plots and summary figures.
 media/             Demo images or video links.
+```
+
+## Main implementation scripts
+
+### Unity XR interface
+
+```text
+unity/scripts/CameraUdpReceiver.cs
+unity/scripts/DraggableWorldUIPanel.cs
+unity/scripts/JoystickCommandReader.cs
+unity/scripts/JoystickUdpSender.cs
+unity/scripts/UdpButtonTestUI.cs
+unity/scripts/UdpCommandSender.cs
+unity/scripts/UdpMoveHoldButton.cs
+unity/scripts/VirtualJoystick.cs
+```
+
+### ROS 2 bridge
+
+```text
+ros2_bridge/control/udp_to_ros_bridge.py
+ros2_bridge/video/camera_udp_sender.py
+```
+
+## Communication ports
+
+```text
+UDP 5005: Unity/Quest control commands to the ROS 2 bridge.
+UDP 5006: CyberDog camera stream to the Unity/Quest interface.
 ```
 
 ## Main ROS 2 topics
 
-This section lists the main ROS 2 topics used in the system.
+### CyberDog control topics
 
-### Unity-side topics
+```text
+/mi1036358/body_cmd
+/mi1036358/cyberdog_action
+```
 
-These topics are generated from the Unity XR interface.
+### CyberDog camera topics
 
-- `/unity/cyberdog/move`: locomotion commands generated from the virtual joystick or UI buttons.
-- `/unity/cyberdog/action`: discrete action commands such as stand up, lie down, sit, slow gait, normal gait, and jump.
-- `/unity_test`: basic communication test topic between ROS 2 and Unity.
+```text
+/mi1036358/camera/color/image_raw
+/mi1036358/camera/depth/image_rect_raw
+/mi1036358/camera/aligned_depth_to_color/image_raw
+```
 
-### CyberDog-side topics
+## UDP message format
 
-These topics are used by the CyberDog ROS 2 control interface.
+### Locomotion command
 
-- `/mi1036358/body_cmd`: velocity command topic used for robot locomotion.
-- `/mi1036358/cyberdog_action`: action command topic used for discrete posture or gait actions.
+```text
+cmd:lx,ly,az
+```
 
-### Camera topics
+Example:
 
-These topics provide the visual information used by the perception channel.
+```text
+cmd:0.25,0.00,0.00
+```
 
-- `/mi1036358/camera/color/image_raw`: RGB camera stream.
-- `/mi1036358/camera/depth/image_rect_raw`: depth camera stream.
-- `/mi1036358/camera/aligned_depth_to_color/image_raw`: depth image aligned to the RGB frame.
+Where:
+
+```text
+lx: linear velocity along the x axis
+ly: linear velocity along the y axis
+az: angular velocity around the z axis
+```
+
+### Discrete action command
+
+```text
+action:x
+```
+
+Examples:
+
+```text
+action:1
+action:3
+```
+
+The action code is mapped inside `udp_to_ros_bridge.py` to the corresponding CyberDog gait or action command.
 
 ## Basic execution
 
@@ -84,25 +170,46 @@ Source the CyberDog message interfaces:
 source ~/cyberdog_if_ws/install/setup.bash
 ```
 
-Run the ROS 2 bridge:
+Run the UDP control bridge:
 
 ```bash
-python3 ros2_bridge/cyberdog_full_control.py
+python3 ros2_bridge/control/udp_to_ros_bridge.py
 ```
 
-Run the video sender:
+Run the camera UDP sender:
 
 ```bash
-python3 ros2_bridge/camera_udp_sender.py
+python3 ros2_bridge/video/camera_udp_sender.py
 ```
+
+## Main experimental results
+
+The technical and user-centered validation reported the following results:
+
+- Control channel: 9.37 ms mean end-to-end latency, 18.45 ms P95 latency, and 100% packet reception within the coherent analysis window.
+- RGB video channel: 21.09 ms mean end-to-end latency, 17.39 FPS effective display rate, and 91.10% frame reception.
+- Depth video channel: 26.99 ms mean end-to-end latency, 15.98 FPS effective display rate, and 91.10% frame reception.
+- User evaluation: NASA-TLX global score of 22.20 and SUS score of 90.30.
+
+These results characterize the system as a functional immersive teleoperation architecture with low-latency control, real-time visual feedback, low perceived workload, and high usability.
 
 ## Experimental notes
 
 The experiments were conducted using a shared mobile network with an available bandwidth of approximately 18.67 Mbps. Therefore, video performance, latency, packet reception, and jitter may vary under different network conditions.
 
+The architecture was validated in an indoor controlled environment using a real Xiaomi CyberDog platform and a Meta Quest 3 headset.
+
 ## Reproducibility scope
 
-This repository does not include the complete Unity project or all raw experimental logs. Instead, it provides the essential scripts, configuration notes, diagrams, processed data, and analysis files required to understand and reproduce the main components of the proposed system.
+This repository does not include the complete Unity project, all raw experimental logs, or participant-level questionnaire data. Instead, it provides the essential implementation scripts, configuration notes, and repository structure required to understand and reproduce the main communication logic of the proposed system.
+
+## Data availability
+
+The source code, configuration files, and implementation scripts used in this study are available in this repository. The experimental datasets generated during the study are available from the corresponding author upon reasonable request.
+
+## Ethical scope
+
+The user evaluation involved non-invasive engineering tasks and did not collect sensitive personal data. The subjective assessment was limited to workload and usability evaluation of the teleoperation interface.
 
 ## Citation
 

@@ -8,6 +8,18 @@ The system was designed as a modular XR–ROS 2 teleoperation platform that enab
 
 The proposed architecture follows a decoupled design organized into two functional channels: a control channel and a visual perception channel.
 
+<p align="center">
+  <img src="docs/methodology_notes/architectureJPG.jpg" alt="AR–ROS 2 teleoperation architecture for CyberDog" width="950">
+</p>
+
+<p align="center">
+  <em>General architecture of the AR–ROS 2 teleoperation system, integrating the Meta Quest 3 client layer, the Unity standalone AR application, the middleware and UDP bridge layer, and the native CyberDog control and perception layer.</em>
+</p>
+
+The architecture is structured around three main layers. The Meta Quest 3 client layer executes the Unity standalone AR application and provides the operator interface, including locomotion controls, discrete action controls, and RGB/depth video receivers. The middleware and UDP bridge layer receives control packets from Unity, translates locomotion and action commands into CyberDog-compatible ROS 2 messages, and processes visual feedback from the robot. The CyberDog native layer executes locomotion and action commands while providing RGB and depth image streams through ROS 2 topics.
+
+The system separates command transmission and visual feedback into two independent communication paths. The control channel carries operator commands from Unity to CyberDog through UDP and ROS 2 control topics, while the perception channel carries RGB/depth feedback from CyberDog to Unity through ROS 2 image topics, image processing, JPEG compression, and UDP transmission.
+
 ### Control channel
 
 ```text
@@ -36,7 +48,7 @@ This separation between control and perception reduces subsystem coupling, simpl
 
 ## Communication design
 
-UDP communication was adopted between the Meta Quest 3 application and the Ubuntu bridge computer instead of a direct Unity–ROS connection through ROS-TCP-Endpoint. This decision was motivated by the need for a lightweight and controllable architecture for standalone execution on Meta Quest 3, considering the network and permission constraints associated with the Android-based runtime environment.
+UDP communication  was adopted between the Meta Quest 3 application and the Ubuntu bridge computer instead of a direct Unity–ROS connection through ROS-TCP-Endpoint. This decision was motivated by the need for a lightweight and controllable architecture for standalone execution on Meta Quest 3, considering the network and permission constraints associated with the Android-based runtime environment.
 
 The adopted design separates the Unity interface, UDP transmission, command translation, ROS 2 publication, image processing, and video streaming into independent modules. This improves modularity, reproducibility, and practical debugging during experimental operation.
 
@@ -68,7 +80,7 @@ In the reported implementation, the bridge computer ran Ubuntu 22.04 with ROS 2 
 docs/              Architecture diagrams and paper-related figures.
 unity/             Unity C# scripts for the XR teleoperation interface.
 ros2_bridge/       ROS 2 bridge scripts for UDP control and video streaming.
-data/              Aggregated objective and subjective results.
+data/              Raw and processed experimental data for methodological reproducibility.
 media/             Demo images or video links.
 ```
 

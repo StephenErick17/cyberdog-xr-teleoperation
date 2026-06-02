@@ -1,4 +1,4 @@
-# Immersive XR–ROS 2 Teleoperation Architecture for CyberDog
+# Immersive AR–ROS 2 Teleoperation Architecture for CyberDog
 
 This repository contains the main implementation materials associated with an immersive teleoperation architecture for a real quadruped robot, integrating Meta Quest 3, Unity, UDP communication, ROS 2, and Xiaomi CyberDog.
 
@@ -69,7 +69,6 @@ docs/              Architecture diagrams and paper-related figures.
 unity/             Unity C# scripts for the XR teleoperation interface.
 ros2_bridge/       ROS 2 bridge scripts for UDP control and video streaming.
 data/              Aggregated objective and subjective results.
-analysis/          Python scripts for generating plots and summary figures.
 media/             Demo images or video links.
 ```
 

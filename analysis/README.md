@@ -2,87 +2,15 @@
 
 
 
-This folder contains the Python scripts used to process the experimental data and reproduce the main descriptive analyses and figures associated with the AR teleoperation architecture for Xiaomi CyberDog.
+This folder contains the analysis workflow used to process the experimental data associated with the augmented reality teleoperation architecture for Xiaomi CyberDog.
 
 
 
-The analysis workflow is intended to support reproducibility of the technical and user-centered results reported in the associated manuscript.
+The scripts process technical acquisition logs and user-centered evaluation data to reproduce the descriptive metrics and summary figures associated with the control channel, RGB/depth visual perception channels, NASA-TLX workload evaluation, and SUS usability evaluation.
 
 
 
-\## Analysis scope
-
-
-
-The scripts in this folder are intended to process data from the following evaluation components:
-
-
-
-1\. \*\*Control channel\*\*
-
-&#x20;  - Quest–bridge latency.
-
-&#x20;  - Bridge internal processing time.
-
-&#x20;  - Bridge–robot latency.
-
-&#x20;  - End-to-end control latency.
-
-&#x20;  - Packet reception rate.
-
-&#x20;  - Effective command frequency.
-
-&#x20;  - Jitter.
-
-
-
-2\. \*\*RGB video channel\*\*
-
-&#x20;  - Emitter–Quest latency.
-
-&#x20;  - Quest reception–display latency.
-
-&#x20;  - End-to-end RGB latency.
-
-&#x20;  - Frame reception rate.
-
-&#x20;  - Effective display FPS.
-
-&#x20;  - Jitter.
-
-&#x20;  - Frame loss.
-
-
-
-3\. \*\*Depth video channel\*\*
-
-&#x20;  - Emitter–Quest latency.
-
-&#x20;  - Quest reception–display latency.
-
-&#x20;  - End-to-end depth latency.
-
-&#x20;  - Frame reception rate.
-
-&#x20;  - Effective display FPS.
-
-&#x20;  - Jitter.
-
-&#x20;  - Frame loss.
-
-
-
-4\. \*\*User-centered evaluation\*\*
-
-&#x20;  - NASA-TLX descriptive statistics.
-
-&#x20;  - SUS descriptive statistics.
-
-&#x20;  - Workload and usability summary plots.
-
-
-
-\## Suggested script organization
+\## Analysis organization
 
 
 
@@ -92,35 +20,137 @@ analysis/
 
 ├── control/
 
-│   ├── analyze\_control\_latency.py
-
-│   └── plot\_control\_latency.py
-
-│
-
 ├── video/
-
-│   ├── analyze\_rgb\_video.py
-
-│   ├── analyze\_depth\_video.py
-
-│   └── plot\_video\_comparison.py
-
-│
 
 ├── user\_evaluation/
 
-│   ├── analyze\_nasa\_tlx.py
+├── global\_summary/
 
-│   ├── analyze\_sus.py
+└── output/
 
-│   └── plot\_user\_evaluation.py
+```
 
-│
 
-└── global\_summary/
 
-&#x20;   └── plot\_global\_latency\_comparison.py
+\## Control-channel analysis
+
+
+
+The `control/` directory contains scripts for processing the command transmission logs.
+
+
+
+The control-channel analysis includes:
+
+
+
+```text
+
+Quest–bridge latency
+
+Bridge internal processing time
+
+Bridge–robot latency
+
+End-to-end control latency
+
+Packet reception rate
+
+Effective command frequency
+
+Jitter
+
+```
+
+
+
+\## Video-channel analysis
+
+
+
+The `video/` directory contains scripts for processing RGB and depth visual feedback logs.
+
+
+
+The video-channel analysis includes:
+
+
+
+```text
+
+Emitter–Quest latency
+
+Quest reception–display latency
+
+End-to-end RGB latency
+
+End-to-end depth latency
+
+Frame reception rate
+
+Frame loss rate
+
+Effective display FPS
+
+Jitter
+
+Video throughput
+
+```
+
+
+
+\## User-centered evaluation analysis
+
+
+
+The `user\_evaluation/` directory contains scripts for processing anonymized NASA-TLX and SUS data.
+
+
+
+The user-centered analysis includes:
+
+
+
+```text
+
+NASA-TLX subscale statistics
+
+NASA-TLX global score
+
+SUS global score
+
+SUS item-level response distribution
+
+Descriptive statistics for workload and usability
+
+```
+
+
+
+\## Global summary analysis
+
+
+
+The `global\_summary/` directory contains scripts for generating comparative summaries across the main system channels.
+
+
+
+The global analysis includes:
+
+
+
+```text
+
+Control latency summary
+
+RGB video latency summary
+
+Depth video latency summary
+
+Global end-to-end latency comparison
+
+Technical and user-centered result synthesis
 
 ```
 
@@ -130,11 +160,7 @@ analysis/
 
 
 
-The scripts are expected to read experimental data from the `data/` folder.
-
-
-
-Recommended input locations:
+The analysis scripts read data from the `data/` directory.
 
 
 
@@ -158,7 +184,7 @@ data/user\_evaluation/
 
 
 
-Generated plots and processed tables can be exported to:
+Generated tables and figures are exported to:
 
 
 
@@ -170,7 +196,7 @@ analysis/output/
 
 
 
-Recommended output examples:
+Output files may include:
 
 
 
@@ -186,6 +212,8 @@ sus\_response\_distribution.pdf
 
 global\_latency\_comparison.pdf
 
+summary\_tables.csv
+
 ```
 
 
@@ -194,7 +222,7 @@ global\_latency\_comparison.pdf
 
 
 
-Recommended Python packages:
+The analysis workflow uses Python and common scientific computing libraries:
 
 
 
@@ -210,51 +238,17 @@ matplotlib
 
 scipy
 
-```
-
-
-
-Optional packages:
-
-
-
-```text
-
 openpyxl
 
 ```
 
 
 
-\## Basic usage
+\## Metric definitions
 
 
 
-From the repository root:
-
-
-
-```bash
-
-python analysis/control/analyze\_control\_latency.py
-
-python analysis/video/analyze\_rgb\_video.py
-
-python analysis/video/analyze\_depth\_video.py
-
-python analysis/user\_evaluation/analyze\_nasa\_tlx.py
-
-python analysis/user\_evaluation/analyze\_sus.py
-
-```
-
-
-
-\## Reproducibility notes
-
-
-
-The analysis scripts should preserve the same metric definitions reported in the manuscript:
+The analysis preserves the metric definitions used in the experimental evaluation:
 
 
 
@@ -280,13 +274,19 @@ Effective frequency
 
 Jitter
 
+Throughput
+
 ```
 
 
 
-For visual consistency, generated figures should use clear labels, readable axes, and export formats suitable for academic publication, such as PDF, PNG, or SVG.
+\## Reproducibility scope
 
 
 
-Participant-level user evaluation files must be anonymized before being processed or shared.
+This folder provides the computational layer required to reconstruct the reported descriptive results from the acquisition logs and anonymized user evaluation data.
+
+
+
+The generated outputs are intended for technical verification, methodological transparency, and academic reporting of the AR teleoperation system.
 

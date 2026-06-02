@@ -2,11 +2,11 @@
 
 
 
-This document summarizes the Unity and Meta Quest 3 setup used to reproduce the augmented reality teleoperation interface for Xiaomi CyberDog.
+This document describes the Unity and Meta Quest 3 configuration used to implement the augmented reality teleoperation interface for Xiaomi CyberDog.
 
 
 
-The Unity application implements an AR-oriented teleoperation HUD that allows the operator to control CyberDog through virtual joysticks, trigger discrete actions, and visualize RGB/depth feedback inside the headset.
+The Unity application provides an AR-oriented teleoperation HUD that allows the operator to command CyberDog through virtual joysticks, trigger discrete actions, and visualize RGB/depth feedback inside the headset.
 
 
 
@@ -50,11 +50,11 @@ Meta Quest 3 / Unity AR interface
 
 
 
-\## Unity requirements
+\## Unity environment
 
 
 
-The Unity project should be configured with:
+The implementation was developed using:
 
 
 
@@ -70,7 +70,9 @@ Meta Quest 3 support
 
 World Space Canvas
 
-UDP communication scripts
+UDP communication
+
+AR-oriented teleoperation HUD
 
 ```
 
@@ -80,27 +82,27 @@ UDP communication scripts
 
 
 
-The AR teleoperation scene should include:
+The AR teleoperation scene contains the following functional components:
 
 
 
 ```text
 
-1\. AR camera or XR camera rig.
+XR camera rig
 
-2\. World Space Canvas used as the teleoperation HUD.
+World Space Canvas
 
-3\. Camera visualization panel.
+Camera visualization panel
 
-4\. Left virtual joystick.
+Left virtual joystick
 
-5\. Right virtual joystick.
+Right virtual joystick
 
-6\. Discrete action buttons.
+Discrete action buttons
 
-7\. UDP control sender components.
+UDP control sender components
 
-8\. UDP video receiver component.
+UDP video receiver component
 
 ```
 
@@ -110,7 +112,7 @@ The AR teleoperation scene should include:
 
 
 
-The HUD integrates:
+The HUD integrates the control and visual feedback elements into a single world-space interface.
 
 
 
@@ -164,7 +166,7 @@ Right joystick:
 
 
 
-The final UDP locomotion message follows this format:
+The resulting UDP locomotion message follows this format:
 
 
 
@@ -192,7 +194,7 @@ cmd:0.25,0.00,0.00
 
 
 
-Discrete action buttons send messages using the format:
+Discrete action buttons use the following message format:
 
 
 
@@ -226,11 +228,7 @@ The action code is interpreted by the ROS 2 bridge and mapped to the correspondi
 
 
 
-The Unity UDP sender scripts must use the IP address of the Ubuntu Bridge PC.
-
-
-
-Example configuration:
+The Unity UDP sender scripts use the IP address of the Ubuntu Bridge PC.
 
 
 
@@ -244,7 +242,7 @@ Control port: 5005
 
 
 
-The Unity UDP video receiver must listen on:
+The Unity UDP video receiver listens on:
 
 
 
@@ -256,29 +254,11 @@ Video port: 5006
 
 
 
-Before building the application, verify:
-
-
-
-```text
-
-1\. The Ubuntu Bridge PC IP address is correct.
-
-2\. The UDP control port is set to 5005.
-
-3\. The UDP video receiver is listening on port 5006.
-
-4\. The Meta Quest 3 and Ubuntu Bridge PC are connected to the same network.
-
-```
+The Unity-side configuration links the AR HUD to the UDP communication layer used by the ROS 2 bridge.
 
 
 
 \## Essential Unity scripts
-
-
-
-The repository includes the following Unity scripts:
 
 
 
@@ -318,7 +298,7 @@ CameraUdpReceiver.cs:
 
 DraggableWorldUIPanel.cs:
 
-&#x20; Allows the world-space HUD panel to be repositioned in the Unity scene.
+&#x20; Provides repositioning behavior for the world-space HUD panel.
 
 
 
@@ -336,7 +316,7 @@ JoystickUdpSender.cs:
 
 UdpButtonTestUI.cs:
 
-&#x20; Provides basic UI tests for UDP button commands.
+&#x20; Provides UI-level tests for UDP button commands.
 
 
 
@@ -364,23 +344,23 @@ VirtualJoystick.cs:
 
 
 
-The locomotion interface should follow a hybrid transmission strategy:
+The locomotion interface uses a hybrid transmission strategy:
 
 
 
 ```text
 
-1\. Send continuous motion commands while the joystick is displaced.
+1\. Continuous motion commands are transmitted while the joystick is displaced.
 
-2\. Send one null command when the joystick returns to the center.
+2\. A null command is transmitted when the joystick returns to the center.
 
-3\. Stop sending redundant zero-velocity commands while the joystick remains centered.
+3\. Redundant zero-velocity commands are not continuously transmitted while the joystick remains centered.
 
 ```
 
 
 
-Null command example:
+Null command:
 
 
 
@@ -392,7 +372,7 @@ cmd:0.00,0.00,0.00
 
 
 
-This logic reduces unnecessary network traffic and preserves a clear relationship between operator intention and robot motion.
+This logic reduces unnecessary network traffic and preserves a direct relationship between operator intention and robot motion state.
 
 
 
@@ -400,7 +380,7 @@ This logic reduces unnecessary network traffic and preserves a clear relationshi
 
 
 
-The Unity project should be built for:
+The Unity project is configured for:
 
 
 
@@ -418,29 +398,25 @@ Interface type: AR-oriented world-space HUD
 
 
 
-\## Recommended testing sequence
-
-
-
-Before deploying to Meta Quest 3:
+\## Validation sequence
 
 
 
 ```text
 
-1\. Test joystick movement inside the Unity editor.
+1\. Verify joystick motion inside the Unity scene.
 
-2\. Test UDP command generation using debug logs.
+2\. Verify UDP command generation through Unity logs.
 
-3\. Verify that the Ubuntu Bridge PC receives UDP packets.
+3\. Verify UDP packet reception on the Ubuntu Bridge PC.
 
-4\. Test discrete action buttons.
+4\. Verify discrete action button messages.
 
-5\. Test the UDP video receiver using the camera sender.
+5\. Verify UDP video reception using the camera sender.
 
-6\. Deploy the application to Meta Quest 3.
+6\. Build and deploy the application to Meta Quest 3.
 
-7\. Verify full control and visual feedback inside the headset.
+7\. Validate control and visual feedback inside the headset.
 
 ```
 
@@ -454,10 +430,6 @@ Before deploying to Meta Quest 3:
 
 
 
-Check:
-
-
-
 ```text
 
 \- Ubuntu Bridge PC IP address in Unity.
@@ -466,9 +438,9 @@ Check:
 
 \- Network connection between Meta Quest 3 and the bridge computer.
 
-\- Firewall settings on the bridge computer.
+\- Firewall configuration on the bridge computer.
 
-\- Whether udp\_to\_ros\_bridge.py is running.
+\- Execution state of udp\_to\_ros\_bridge.py.
 
 ```
 
@@ -478,31 +450,23 @@ Check:
 
 
 
-Check:
-
-
-
 ```text
 
-\- Unity is listening on UDP port 5006.
+\- Unity UDP receiver port 5006.
 
-\- camera\_udp\_sender.py is running.
+\- Execution state of camera\_udp\_sender.py.
 
-\- The Quest IP address is correctly configured in camera\_udp\_sender.py.
+\- Meta Quest 3 IP address configured in camera\_udp\_sender.py.
 
-\- The selected CyberDog camera topic is publishing frames.
+\- Activity of the selected CyberDog camera topic.
 
-\- The video panel is assigned correctly in the Unity scene.
+\- Assignment of the video panel inside the Unity scene.
 
 ```
 
 
 
 \### Joystick does not control the robot
-
-
-
-Check:
 
 
 
@@ -522,11 +486,15 @@ Check:
 
 
 
-\## Notes
+\## Repository exclusion policy
 
 
 
-The complete Unity project can be added later if full scene-level reproducibility is required. If the complete project is uploaded, generated folders should remain excluded through `.gitignore`, including:
+The lightweight repository includes the essential Unity scripts and setup documentation.
+
+
+
+Generated Unity folders are excluded through `.gitignore`:
 
 
 
@@ -550,5 +518,5 @@ UserSettings/
 
 
 
-For a lightweight reproducibility repository, the essential scripts and setup notes are sufficient to document the AR communication and interaction logic.
+The complete Unity project can be incorporated as a structured release when full scene-level reproduction is required.
 

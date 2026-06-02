@@ -2,11 +2,11 @@
 
 
 
-This document describes the basic setup procedure required to run the ROS 2 bridge used in the augmented reality teleoperation architecture for Xiaomi CyberDog.
+This document describes the setup procedure required to run the ROS 2 bridge used in the augmented reality teleoperation architecture for Xiaomi CyberDog.
 
 
 
-The bridge computer acts as the intermediate layer between the Meta Quest 3 / Unity AR interface and the CyberDog ROS 2 environment. It receives UDP control commands from Unity, publishes CyberDog-compatible ROS 2 messages, and sends camera frames back to Unity through UDP.
+The Ubuntu Bridge PC acts as the intermediate layer between the Meta Quest 3 / Unity AR interface and the CyberDog ROS 2 environment. It receives UDP control commands from Unity, publishes CyberDog-compatible ROS 2 messages, and sends camera frames back to Unity through UDP.
 
 
 
@@ -50,11 +50,11 @@ Meta Quest 3 / Unity AR interface
 
 
 
-\## Bridge computer requirements
+\## Bridge computer environment
 
 
 
-The Ubuntu bridge computer should provide:
+The Ubuntu Bridge PC uses:
 
 
 
@@ -80,15 +80,11 @@ Network access to Meta Quest 3
 
 
 
-\## CyberDog requirements
+\## CyberDog environment
 
 
 
-The CyberDog platform should be running its native ROS 2 environment and must expose the required control and camera topics.
-
-
-
-Expected CyberDog environment:
+The CyberDog platform runs its native ROS 2 environment and exposes the required control and camera topics.
 
 
 
@@ -108,11 +104,11 @@ CyberDog camera topics
 
 
 
-\## Source ROS 2 Humble
+\## ROS 2 environment
 
 
 
-On the Ubuntu bridge computer, source ROS 2 Humble:
+Source ROS 2 Humble on the Ubuntu Bridge PC:
 
 
 
@@ -124,11 +120,19 @@ source /opt/ros/humble/setup.bash
 
 
 
-\## Source CyberDog message interfaces
+Source the CyberDog message interfaces:
 
 
 
-The bridge requires CyberDog-specific message types such as:
+```bash
+
+source \~/cyberdog\_if\_ws/install/setup.bash
+
+```
+
+
+
+The bridge uses CyberDog-specific message types:
 
 
 
@@ -142,27 +146,11 @@ motion\_msgs/msg/ActionRequest
 
 
 
-Source the workspace where these interfaces are available:
+\## ROS 2 communication verification
 
 
 
-```bash
-
-source \~/cyberdog\_if\_ws/install/setup.bash
-
-```
-
-
-
-Adjust the path if the CyberDog interfaces are installed in a different workspace.
-
-
-
-\## Verify ROS 2 communication
-
-
-
-Check that the CyberDog topics are visible from the bridge computer:
+Verify that CyberDog topics are visible from the Ubuntu Bridge PC:
 
 
 
@@ -174,7 +162,7 @@ ros2 topic list | grep mi1036358
 
 
 
-Expected control topics include:
+Control topics:
 
 
 
@@ -188,7 +176,7 @@ Expected control topics include:
 
 
 
-Expected camera topics include:
+Camera topics:
 
 
 
@@ -204,11 +192,11 @@ Expected camera topics include:
 
 
 
-\## Run the UDP-to-ROS 2 control bridge
+\## Control bridge execution
 
 
 
-From the repository root, run:
+From the repository root:
 
 
 
@@ -246,7 +234,7 @@ action:x
 
 
 
-Examples:
+Example packets:
 
 
 
@@ -270,11 +258,11 @@ The bridge translates these packets into CyberDog ROS 2 control messages.
 
 
 
-\## Run the camera UDP sender
+\## Camera sender execution
 
 
 
-Before running the camera sender, update the Meta Quest 3 IP address inside:
+The Meta Quest 3 IP address is configured in:
 
 
 
@@ -286,7 +274,7 @@ ros2\_bridge/video/camera\_udp\_sender.py
 
 
 
-Then run the script from the repository root:
+From the repository root:
 
 
 
@@ -302,39 +290,39 @@ The camera sender subscribes to a CyberDog image topic, processes the frame with
 
 
 
-\## Recommended execution order
+\## Execution sequence
 
 
 
 ```text
 
-1\. Start Xiaomi CyberDog.
+1\. Xiaomi CyberDog is powered on.
 
-2\. Connect CyberDog, Ubuntu Bridge PC, and Meta Quest 3 to the same network.
+2\. CyberDog, Ubuntu Bridge PC, and Meta Quest 3 are connected to the same network.
 
-3\. Verify the IP address of the Ubuntu Bridge PC.
+3\. The Ubuntu Bridge PC IP address is verified.
 
-4\. Verify the IP address of Meta Quest 3.
+4\. The Meta Quest 3 IP address is verified.
 
-5\. Source ROS 2 Humble on the bridge computer.
+5\. ROS 2 Humble is sourced on the bridge computer.
 
-6\. Source the CyberDog message interfaces.
+6\. CyberDog message interfaces are sourced.
 
-7\. Verify that CyberDog ROS 2 topics are visible.
+7\. CyberDog ROS 2 topics are verified.
 
-8\. Run udp\_to\_ros\_bridge.py.
+8\. udp\_to\_ros\_bridge.py is executed.
 
-9\. Run camera\_udp\_sender.py.
+9\. camera\_udp\_sender.py is executed.
 
-10\. Launch the Unity AR application on Meta Quest 3.
+10\. The Unity AR application is launched on Meta Quest 3.
 
-11\. Verify robot command execution and camera visualization.
+11\. Robot command execution and camera visualization are validated.
 
 ```
 
 
 
-\## Useful ROS 2 commands
+\## ROS 2 verification commands
 
 
 
@@ -398,7 +386,7 @@ ros2 topic info /mi1036358/camera/color/image\_raw
 
 
 
-\## Useful network commands
+\## Network verification commands
 
 
 
@@ -446,21 +434,19 @@ ping 192.168.242.18
 
 
 
-Check that:
-
-
-
 ```text
 
-\- CyberDog is powered on.
+\- CyberDog power state.
 
-\- CyberDog and the bridge computer are connected to the same network.
+\- Network connection between CyberDog and Ubuntu Bridge PC.
 
-\- ROS 2 environment variables are correctly configured.
+\- ROS 2 environment sourcing.
 
-\- Cyclone DDS is active and correctly configured.
+\- ROS\_DOMAIN\_ID compatibility.
 
-\- The CyberDog ROS 2 environment is running.
+\- Cyclone DDS configuration.
+
+\- CyberDog ROS 2 environment state.
 
 ```
 
@@ -470,21 +456,17 @@ Check that:
 
 
 
-Check that:
-
-
-
 ```text
 
-\- udp\_to\_ros\_bridge.py is running.
+\- Execution state of udp\_to\_ros\_bridge.py.
 
-\- Unity is sending commands to the correct bridge computer IP address.
+\- Unity destination IP address.
 
-\- UDP port 5005 is not blocked.
+\- UDP port 5005.
 
-\- The CyberDog control topics are visible.
+\- CyberDog control topic availability.
 
-\- The CyberDog message interfaces are sourced.
+\- CyberDog message interface sourcing.
 
 ```
 
@@ -494,37 +476,33 @@ Check that:
 
 
 
-Check that:
-
-
-
 ```text
 
-\- camera\_udp\_sender.py is running.
+\- Execution state of camera\_udp\_sender.py.
 
-\- The Quest IP address is correctly configured in camera\_udp\_sender.py.
+\- Meta Quest 3 IP address in camera\_udp\_sender.py.
 
-\- UDP port 5006 is not blocked.
+\- UDP port 5006.
 
-\- The selected CyberDog camera topic is active.
+\- Selected CyberDog camera topic.
 
-\- Unity is listening on the expected video port.
+\- Unity video receiver configuration.
 
 ```
 
 
 
-\## Notes
+\## Reproducibility notes
 
 
 
-The control channel uses lightweight UDP packets and should remain responsive under moderate network constraints.
+The control channel uses lightweight UDP packets and provides the command path between the AR interface and CyberDog.
 
 
 
-The visual perception channel is more demanding because it involves image acquisition, conversion, resizing, JPEG compression, UDP transmission, reconstruction in Unity, and display inside the AR HUD.
+The visual perception channel performs image acquisition, conversion, resizing, JPEG compression, UDP transmission, reconstruction in Unity, and display inside the AR HUD.
 
 
 
-For stable operation, a dedicated wireless network is recommended when available.
+The bridge setup is verified before running the complete teleoperation workflow.
 

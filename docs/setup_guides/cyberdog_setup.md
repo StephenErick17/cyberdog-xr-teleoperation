@@ -2,7 +2,7 @@
 
 
 
-This document summarizes the basic CyberDog setup and verification steps required to reproduce the augmented reality teleoperation architecture using Meta Quest 3, Unity, UDP communication, and ROS 2.
+This document describes the CyberDog setup and verification steps required to reproduce the augmented reality teleoperation architecture using Meta Quest 3, Unity, UDP communication, and ROS 2.
 
 
 
@@ -58,10 +58,6 @@ The implementation was tested with the CyberDog native ROS 2 environment.
 
 
 
-Expected robot-side environment:
-
-
-
 ```text
 
 Robot: Xiaomi CyberDog
@@ -94,7 +90,7 @@ The CyberDog namespace used in the implementation was:
 
 
 
-If a different CyberDog unit or namespace is used, the scripts must be updated accordingly.
+A different CyberDog unit or namespace requires updating the corresponding namespace references in the bridge scripts.
 
 
 
@@ -116,7 +112,7 @@ ros2\_bridge/video/camera\_udp\_sender.py
 
 
 
-The bridge requires CyberDog-specific message interfaces, mainly:
+The bridge uses CyberDog-specific message interfaces:
 
 
 
@@ -130,7 +126,7 @@ motion\_msgs/msg/ActionRequest
 
 
 
-These interfaces must be available and sourced on the Ubuntu Bridge PC before running the bridge scripts.
+These interfaces are sourced on the Ubuntu Bridge PC before running the bridge scripts.
 
 
 
@@ -143,10 +139,6 @@ Example:
 source \~/cyberdog\_if\_ws/install/setup.bash
 
 ```
-
-
-
-Adjust the path according to the local workspace where the CyberDog interfaces are installed.
 
 
 
@@ -168,11 +160,11 @@ The main CyberDog control topics used by the bridge are:
 
 
 
-The `body\_cmd` topic is used for continuous locomotion commands.
+The `body\_cmd` topic handles continuous locomotion commands.
 
 
 
-The `cyberdog\_action` topic is used for discrete posture or gait actions.
+The `cyberdog\_action` topic handles discrete posture and gait actions.
 
 
 
@@ -180,7 +172,7 @@ The `cyberdog\_action` topic is used for discrete posture or gait actions.
 
 
 
-The main camera topics considered in the implementation are:
+The main camera topics used in the implementation are:
 
 
 
@@ -196,7 +188,7 @@ The main camera topics considered in the implementation are:
 
 
 
-The default topic used by the camera sender is:
+The default camera topic used by the video sender is:
 
 
 
@@ -208,7 +200,7 @@ The default topic used by the camera sender is:
 
 
 
-Depth topics can be enabled by modifying the active topic and mode inside:
+Depth visualization is activated by changing the active topic and mode in:
 
 
 
@@ -220,11 +212,11 @@ ros2\_bridge/video/camera\_udp\_sender.py
 
 
 
-\## Verify ROS 2 topic discovery
+\## ROS 2 topic discovery
 
 
 
-From the Ubuntu Bridge PC, source ROS 2 and the required interfaces:
+On the Ubuntu Bridge PC, source ROS 2 and the CyberDog interfaces:
 
 
 
@@ -238,7 +230,7 @@ source \~/cyberdog\_if\_ws/install/setup.bash
 
 
 
-Then verify that CyberDog topics are visible:
+Verify CyberDog topic discovery:
 
 
 
@@ -250,7 +242,7 @@ ros2 topic list | grep mi1036358
 
 
 
-Expected output should include control and camera topics such as:
+The discovered topics include control and camera topics such as:
 
 
 
@@ -266,11 +258,11 @@ Expected output should include control and camera topics such as:
 
 
 
-\## Verify camera stream
+\## Camera stream verification
 
 
 
-Check whether the RGB camera topic is publishing:
+Check the RGB camera frequency:
 
 
 
@@ -282,7 +274,7 @@ ros2 topic hz /mi1036358/camera/color/image\_raw
 
 
 
-Check topic information:
+Check camera topic information:
 
 
 
@@ -294,7 +286,7 @@ ros2 topic info /mi1036358/camera/color/image\_raw
 
 
 
-If the camera topic is not active, verify whether the camera service is available:
+List camera services:
 
 
 
@@ -306,7 +298,7 @@ ros2 service list | grep camera
 
 
 
-The camera sender script attempts to enable the camera using:
+The camera sender can request camera activation through:
 
 
 
@@ -318,15 +310,15 @@ The camera sender script attempts to enable the camera using:
 
 
 
-If this service is not available, the script can still subscribe to the active image topic when the camera is already publishing.
+The script can also subscribe to an already active image topic when the camera stream is publishing.
 
 
 
-\## Verify control topics
+\## Control topic verification
 
 
 
-Check that the body command topic exists:
+Check the body command topic:
 
 
 
@@ -338,7 +330,7 @@ ros2 topic info /mi1036358/body\_cmd
 
 
 
-Check that the action topic exists:
+Check the action topic:
 
 
 
@@ -350,7 +342,7 @@ ros2 topic info /mi1036358/cyberdog\_action
 
 
 
-Optional echo commands:
+Echo commands for verification:
 
 
 
@@ -365,10 +357,6 @@ ros2 topic echo /mi1036358/cyberdog\_action
 
 
 \## Control command flow
-
-
-
-The UDP-to-ROS 2 bridge receives commands from Unity and publishes them to CyberDog.
 
 
 
@@ -400,7 +388,7 @@ Robot execution
 
 
 
-The supported UDP control formats are:
+Supported UDP control formats:
 
 
 
@@ -422,35 +410,33 @@ The bridge converts `action:x` messages into `ActionRequest`.
 
 
 
-\## Safety recommendations
+\## Safety protocol
 
 
 
-Before running teleoperation tests:
+Teleoperation tests are performed with the robot in a controlled and open area.
 
 
 
 ```text
 
-1\. Place CyberDog in an open and safe area.
+1\. CyberDog is placed in a safe area with sufficient free space.
 
-2\. Keep enough free space around the robot.
+2\. Battery level is verified before testing.
 
-3\. Verify battery level before testing.
+3\. Nearby stairs, fragile objects, and people are avoided.
 
-4\. Avoid testing near stairs, fragile objects, or people.
+4\. Initial tests use low velocity values.
 
-5\. Start with low velocity values.
+5\. Stop or null command behavior is verified before continuous operation.
 
-6\. Confirm that a stop or null command is correctly transmitted.
-
-7\. Keep physical access to the robot for emergency intervention.
+6\. Physical access to the robot is maintained during the test.
 
 ```
 
 
 
-Recommended null command:
+Null command:
 
 
 
@@ -462,7 +448,7 @@ cmd:0.00,0.00,0.00
 
 
 
-\## Recommended startup sequence
+\## Startup sequence
 
 
 
@@ -470,7 +456,7 @@ cmd:0.00,0.00,0.00
 
 1\. Power on Xiaomi CyberDog.
 
-2\. Connect CyberDog to the same network as the Ubuntu Bridge PC and Meta Quest 3.
+2\. Connect CyberDog, Ubuntu Bridge PC, and Meta Quest 3 to the same network.
 
 3\. Verify network connectivity between CyberDog and the Ubuntu Bridge PC.
 
@@ -486,11 +472,11 @@ cmd:0.00,0.00,0.00
 
 9\. Launch the Unity AR application on Meta Quest 3.
 
-10\. Test discrete actions first.
+10\. Validate discrete actions.
 
-11\. Test low-speed locomotion commands.
+11\. Validate low-speed locomotion.
 
-12\. Test complete AR teleoperation with visual feedback.
+12\. Validate complete AR teleoperation with visual feedback.
 
 ```
 
@@ -504,23 +490,19 @@ cmd:0.00,0.00,0.00
 
 
 
-Check:
-
-
-
 ```text
 
-\- CyberDog is powered on.
+\- CyberDog power state.
 
-\- CyberDog and the Ubuntu Bridge PC are on the same network.
+\- Network connection between CyberDog and Ubuntu Bridge PC.
 
-\- ROS 2 environments are sourced correctly.
+\- ROS 2 environment sourcing.
 
-\- CyberDog message interfaces are available.
+\- CyberDog message interface availability.
 
-\- Cyclone DDS is configured correctly.
+\- Cyclone DDS configuration.
 
-\- ROS\_DOMAIN\_ID is compatible between devices.
+\- ROS\_DOMAIN\_ID compatibility.
 
 ```
 
@@ -530,23 +512,19 @@ Check:
 
 
 
-Check:
-
-
-
 ```text
 
-\- udp\_to\_ros\_bridge.py is running.
+\- Execution state of udp\_to\_ros\_bridge.py.
 
-\- Unity is sending UDP commands to the correct bridge IP.
+\- Unity UDP destination IP.
 
-\- UDP port 5005 is not blocked.
+\- UDP port 5005.
 
-\- /mi1036358/body\_cmd is available.
+\- Availability of /mi1036358/body\_cmd.
 
-\- motion\_msgs/msg/SE3VelocityCMD is sourced correctly.
+\- Availability of motion\_msgs/msg/SE3VelocityCMD.
 
-\- The robot is in a state that allows locomotion.
+\- Robot locomotion state.
 
 ```
 
@@ -556,53 +534,47 @@ Check:
 
 
 
-Check:
-
-
-
 ```text
 
-\- /mi1036358/cyberdog\_action is available.
+\- Availability of /mi1036358/cyberdog\_action.
 
-\- motion\_msgs/msg/ActionRequest is sourced correctly.
+\- Availability of motion\_msgs/msg/ActionRequest.
 
-\- The action code is supported by udp\_to\_ros\_bridge.py.
+\- Supported action code in udp\_to\_ros\_bridge.py.
 
-\- The robot is not busy executing another action.
+\- Current execution state of the robot.
 
 ```
 
 
 
-\### Camera is not available
-
-
-
-Check:
+\### Camera stream is not available
 
 
 
 ```text
 
-\- The selected image topic is publishing.
+\- Activity of the selected image topic.
 
-\- The camera service is available, if required.
+\- Availability of the camera service.
 
-\- camera\_udp\_sender.py is using the correct topic.
+\- Active topic configured in camera\_udp\_sender.py.
 
-\- CvBridge and OpenCV are installed on the bridge computer.
+\- CvBridge installation.
+
+\- OpenCV installation.
 
 ```
 
 
 
-\## Notes
+\## Reproducibility notes
 
 
 
-The CyberDog ROS 2 environment may vary depending on the robot configuration, firmware, network setup, and available interfaces.
+CyberDog ROS 2 configuration can vary depending on robot firmware, network configuration, active namespace, and available interfaces.
 
 
 
-When reproducing the architecture with another CyberDog unit, verify the namespace, topic names, message types, and camera topics before running the complete AR teleoperation workflow.
+The namespace, topic names, message types, and camera topics are verified before executing the complete AR teleoperation workflow.
 

@@ -2,61 +2,15 @@
 
 
 
-This folder contains the experimental data associated with the technical and user-centered evaluation of the AR teleoperation architecture for Xiaomi CyberDog.
+This folder contains the experimental data associated with the technical and user-centered evaluation of the augmented reality teleoperation architecture for Xiaomi CyberDog.
 
 
 
-The data are organized to support the reproducibility of the main results reported in the associated manuscript, including control-channel latency, RGB/depth video performance, packet or frame reception, effective frequency, jitter, and user-centered usability/workload metrics.
+The data support the reproducibility of the main results obtained from the control channel, RGB/depth visual perception channels, and user-centered evaluation.
 
 
 
-\## Data scope
-
-
-
-The experimental evaluation was organized into two complementary levels:
-
-
-
-1\. \*\*Objective technical evaluation\*\*
-
-&#x20;  - Control-channel latency.
-
-&#x20;  - Quest–bridge latency.
-
-&#x20;  - Bridge internal processing time.
-
-&#x20;  - Bridge–robot latency.
-
-&#x20;  - End-to-end control latency.
-
-&#x20;  - RGB video latency.
-
-&#x20;  - Depth video latency.
-
-&#x20;  - Packet or frame reception rate.
-
-&#x20;  - Packet or frame loss rate.
-
-&#x20;  - Effective frequency.
-
-&#x20;  - Jitter.
-
-&#x20;  - Video throughput.
-
-
-
-2\. \*\*User-centered evaluation\*\*
-
-&#x20;  - NASA-TLX workload scores.
-
-&#x20;  - SUS usability scores.
-
-&#x20;  - Aggregated descriptive statistics.
-
-
-
-\## Suggested folder organization
+\## Data organization
 
 
 
@@ -102,15 +56,11 @@ data/
 
 
 
-\## Raw data
+\## Raw technical data
 
 
 
-The `raw/` folder may include acquisition logs generated during the experimental sessions. These files can contain timestamps, packet identifiers, frame identifiers, transmission times, reception times, display times, frame sizes, or other technical variables required to reconstruct the reported metrics.
-
-
-
-Recommended organization:
+The `raw/` directory contains acquisition logs generated during the experimental sessions.
 
 
 
@@ -126,29 +76,41 @@ raw/depth\_video/  Depth video-channel acquisition logs.
 
 
 
+These files may include timestamps, packet identifiers, frame identifiers, transmission times, reception times, display times, frame sizes, and technical variables required to reconstruct the reported metrics.
+
+
+
 \## Processed data
 
 
 
-The `processed/` folder contains cleaned or summarized tables used to reproduce the main descriptive statistics and figures.
+The `processed/` directory contains cleaned and summarized tables derived from the raw acquisition files.
 
 
 
-Recommended files:
+The processed tables are used to reproduce the descriptive statistics and summary results associated with:
 
 
 
 ```text
 
-control\_latency\_summary.csv
+Control-channel latency
 
-rgb\_video\_summary.csv
+RGB video latency
 
-depth\_video\_summary.csv
+Depth video latency
 
-packet\_frame\_statistics.csv
+Packet or frame reception
 
-global\_performance\_summary.csv
+Packet or frame loss
+
+Effective frequency
+
+Jitter
+
+Video throughput
+
+Global system performance
 
 ```
 
@@ -158,37 +120,31 @@ global\_performance\_summary.csv
 
 
 
-The `user\_evaluation/` folder contains anonymized NASA-TLX and SUS results.
+The `user\_evaluation/` directory contains anonymized user-centered evaluation data.
 
 
 
-Only anonymized data should be included. Do not upload participant names, emails, identification numbers, signatures, consent forms, or any information that could directly identify a participant.
-
-
-
-Recommended files:
+The evaluation includes:
 
 
 
 ```text
 
-nasa\_tlx\_anonymized.csv
+NASA-TLX workload scores
 
-sus\_anonymized.csv
+SUS usability scores
 
-nasa\_tlx\_summary.csv
-
-sus\_summary.csv
+Aggregated descriptive statistics
 
 ```
 
 
 
+Participant-level files are provided only in anonymized form. Personal identifiers, names, emails, signatures, consent forms, and identification numbers are not part of the shared dataset.
+
+
+
 \## Main reported results
-
-
-
-The following values summarize the main results reported in the manuscript:
 
 
 
@@ -238,13 +194,13 @@ User evaluation:
 
 
 
-Technical acquisition logs can be included when they do not contain sensitive information.
+The data structure separates technical acquisition logs, processed performance metrics, and anonymized user evaluation results.
 
 
 
-Participant-level questionnaire data must be anonymized before being uploaded. If raw user forms contain personal information, only processed or anonymized versions should be shared.
+Technical logs are included when they do not contain sensitive information. User-centered data are limited to anonymized or aggregated values.
 
 
 
-This folder is intended to improve the transparency and reproducibility of the reported experimental results.
+This folder supports transparent reconstruction of the reported experimental results while preserving participant privacy.
 

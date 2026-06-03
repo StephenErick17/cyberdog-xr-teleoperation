@@ -243,13 +243,27 @@ The technical datasets include control-channel logs, RGB/depth video acquisition
 The following images present representative views of the AR teleoperation workflow. They illustrate the operator-side interface, the visual feedback environment, and the practical interaction with the system during experimental operation.
 
 <p align="center">
-  <img src="media/TESTING/1.jpg" alt="AR teleoperation example 1" width="30%">
-  <img src="media/TESTING/11.jpg" alt="AR teleoperation example 2" width="30%">
-  <img src="media/TESTING/12.jpg" alt="AR teleoperation example 3" width="30%">
+  <img src="media/TESTING/1.jpg" alt="AR teleoperation workflow example 1">
 </p>
 
 <p align="center">
-  <em>Representative examples of the AR teleoperation workflow using Meta Quest 3, Unity, UDP communication, ROS 2, and Xiaomi CyberDog.</em>
+  <em>Example 1. Operator-side view of the AR teleoperation workflow.</em>
+</p>
+
+<p align="center">
+  <img src="media/TESTING/11.jpg" alt="AR teleoperation workflow example 2">
+</p>
+
+<p align="center">
+  <em>Example 2. Visual feedback and interaction environment during CyberDog operation.</em>
+</p>
+
+<p align="center">
+  <img src="media/TESTING/12.jpg" alt="AR teleoperation workflow example 3">
+</p>
+
+<p align="center">
+  <em>Example 3. Experimental view of the AR-based teleoperation system.</em>
 </p>
 
 Additional photographs from the experimental tests are available in:
@@ -266,9 +280,15 @@ media/VIDEO/
 
 A representative demonstration video is available at:
 
-```text
-https://youtube.com/shorts/hcoMqrbQ6V8
-```
+<p align="center">
+  <a href="https://youtube.com/shorts/hcoMqrbQ6V8">
+    <img src="https://img.youtube.com/vi/hcoMqrbQ6V8/hqdefault.jpg" alt="CyberDog AR teleoperation demonstration video">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://youtube.com/shorts/hcoMqrbQ6V8">Watch the demonstration video on YouTube</a>
+</p>
 
 ## Ethical scope
 

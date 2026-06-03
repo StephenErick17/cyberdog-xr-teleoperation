@@ -238,6 +238,38 @@ This repository includes the core implementation scripts, configuration notes, r
 
 The technical datasets include control-channel logs, RGB/depth video acquisition logs, processed video records, and user-centered evaluation data related to NASA-TLX and SUS. These materials are organized to support methodological transparency and independent reconstruction of the reported metrics.
 
+## Example
+
+The following images present representative views of the AR teleoperation workflow. They illustrate the operator-side interface, the visual feedback environment, and the practical interaction with the system during experimental operation.
+
+<p align="center">
+  <img src="media/TESTING/1.jpg" alt="AR teleoperation example 1" width="30%">
+  <img src="media/TESTING/11.jpg" alt="AR teleoperation example 2" width="30%">
+  <img src="media/TESTING/12.jpg" alt="AR teleoperation example 3" width="30%">
+</p>
+
+<p align="center">
+  <em>Representative examples of the AR teleoperation workflow using Meta Quest 3, Unity, UDP communication, ROS 2, and Xiaomi CyberDog.</em>
+</p>
+
+Additional photographs from the experimental tests are available in:
+
+```text
+media/TESTING/
+```
+
+Demonstration videos are available in:
+
+```text
+media/VIDEO/
+```
+
+A representative demonstration video is available at:
+
+```text
+https://youtube.com/shorts/hcoMqrbQ6V8
+```
+
 ## Ethical scope
 
 The user evaluation involved non-invasive engineering tasks and did not collect sensitive personal data. The subjective assessment was limited to workload and usability evaluation of the teleoperation interface.

@@ -1,206 +1,118 @@
-\# Experimental Data
-
-
+# Experimental Data
 
 This folder contains the experimental data associated with the technical and user-centered evaluation of the augmented reality teleoperation architecture for Xiaomi CyberDog.
 
+The data are organized to support methodological transparency and independent reconstruction of the reported performance metrics. The folder includes raw acquisition logs, processed video records, and user-evaluation files related to NASA-TLX and SUS.
 
-
-The data support the reproducibility of the main results obtained from the control channel, RGB/depth visual perception channels, and user-centered evaluation.
-
-
-
-\## Data organization
-
-
+## Data organization
 
 ```text
-
 data/
-
 ├── raw/
-
 │   ├── control/
-
-│   ├── rgb\_video/
-
-│   └── depth\_video/
-
+│   ├── rgb_video/
+│   └── depth_video/
 │
-
 ├── processed/
-
-│   ├── control\_latency\_summary.csv
-
-│   ├── rgb\_video\_summary.csv
-
-│   ├── depth\_video\_summary.csv
-
-│   ├── packet\_frame\_statistics.csv
-
-│   └── global\_performance\_summary.csv
-
+│   ├── rgb/
+│   └── depth/
 │
-
-└── user\_evaluation/
-
-&#x20;   ├── nasa\_tlx\_anonymized.csv
-
-&#x20;   ├── sus\_anonymized.csv
-
-&#x20;   ├── nasa\_tlx\_summary.csv
-
-&#x20;   └── sus\_summary.csv
-
+└── user_evaluation/
 ```
 
+## Raw technical data
 
-
-\## Raw technical data
-
-
-
-The `raw/` directory contains acquisition logs generated during the experimental sessions.
-
-
+The `raw/` directory contains the original acquisition logs generated during the experimental sessions.
 
 ```text
-
 raw/control/      Control-channel acquisition logs.
-
-raw/rgb\_video/    RGB video-channel acquisition logs.
-
-raw/depth\_video/  Depth video-channel acquisition logs.
-
+raw/rgb_video/    RGB video transmission and reception logs.
+raw/depth_video/  Depth video transmission and reception logs.
 ```
 
+The raw files include technical variables required to reconstruct the reported metrics, such as packet or frame identifiers, timestamps, transmission events, reception events, display events, and frame-size information.
 
+## Control data
 
-These files may include timestamps, packet identifiers, frame identifiers, transmission times, reception times, display times, frame sizes, and technical variables required to reconstruct the reported metrics.
-
-
-
-\## Processed data
-
-
-
-The `processed/` directory contains cleaned and summarized tables derived from the raw acquisition files.
-
-
-
-The processed tables are used to reproduce the descriptive statistics and summary results associated with:
-
-
+The control-channel logs are located in:
 
 ```text
+data/raw/control/
+```
 
-Control-channel latency
+The files include the commands generated from the Meta Quest 3 / Unity AR interface and the corresponding trace reconstructed at the bridge and robot side.
 
-RGB video latency
+These data support the reconstruction of:
 
-Depth video latency
-
-Packet or frame reception
-
-Packet or frame loss
-
-Effective frequency
-
+```text
+Quest-bridge latency
+Bridge internal processing time
+Bridge-robot latency
+End-to-end control latency
+Packet reception rate
+Effective command frequency
 Jitter
-
-Video throughput
-
-Global system performance
-
 ```
 
+## RGB video data
 
-
-\## User evaluation data
-
-
-
-The `user\_evaluation/` directory contains anonymized user-centered evaluation data.
-
-
-
-The evaluation includes:
-
-
+The RGB video logs are located in:
 
 ```text
-
-NASA-TLX workload scores
-
-SUS usability scores
-
-Aggregated descriptive statistics
-
+data/raw/rgb_video/
+data/processed/rgb/
 ```
 
+The raw files contain the original sender and receiver logs. The processed files contain unified records used to reconstruct the reported RGB video metrics.
 
-
-Participant-level files are provided only in anonymized form. Personal identifiers, names, emails, signatures, consent forms, and identification numbers are not part of the shared dataset.
-
-
-
-\## Main reported results
-
-
+These data support the reconstruction of:
 
 ```text
+RGB video latency
+Frame reception rate
+Frame loss rate
+Effective display FPS
+Jitter
+Video transmission behavior
+```
 
-Control channel:
+## Depth video data
 
-&#x20; Mean end-to-end latency: 9.37 ms
+The depth video logs are located in:
 
-&#x20; P95 latency: 18.45 ms
+```text
+data/raw/depth_video/
+data/processed/depth/
+```
 
-&#x20; Reception rate: 100%
+The raw files contain the original sender and receiver logs. The processed files contain unified records used to reconstruct the reported depth video metrics.
 
+These data support the reconstruction of:
 
+```text
+Depth video latency
+Frame reception rate
+Frame loss rate
+Effective display FPS
+Jitter
+Video transmission behavior
+```
 
-RGB video channel:
+## User-centered evaluation data
 
-&#x20; Mean end-to-end latency: 21.09 ms
+The `user_evaluation/` directory contains the user-centered evaluation files associated with workload and usability assessment.
 
-&#x20; Effective display rate: 17.39 FPS
+```text
+NASA-TLX  Workload evaluation.
+SUS       System usability evaluation.
+```
 
-&#x20; Frame reception rate: 91.10%
-
-
-
-Depth video channel:
-
-&#x20; Mean end-to-end latency: 26.99 ms
-
-&#x20; Effective display rate: 15.98 FPS
-
-&#x20; Frame reception rate: 91.10%
-
-
-
-User evaluation:
-
-&#x20; NASA-TLX global score: 22.20
-
-&#x20; SUS score: 90.30
+The user-evaluation files are included for methodological transparency. The shared files do not include direct participant-identifiable information such as names, emails, signatures, identification numbers, or consent forms.
 
 ```
 
+## Reproducibility scope
 
+The data structure separates raw acquisition logs, processed technical records, and user-centered evaluation files.
 
-\## Privacy and reproducibility
-
-
-
-The data structure separates technical acquisition logs, processed performance metrics, and anonymized user evaluation results.
-
-
-
-Technical logs are included when they do not contain sensitive information. User-centered data are limited to anonymized or aggregated values.
-
-
-
-This folder supports transparent reconstruction of the reported experimental results while preserving participant privacy.
-
+The raw and processed datasets allow independent verification of the communication behavior of the control channel and the RGB/depth perception channels. The user-evaluation files complement the technical data by documenting the workload and usability assessment associated with the AR teleoperation interface.

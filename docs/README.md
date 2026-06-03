@@ -1,164 +1,88 @@
-\# Methodology and Setup Documentation
+# Methodology and Setup Documentation
 
+This folder contains methodological and technical documentation for reproducing the augmented reality teleoperation architecture implemented with Meta Quest 3, Unity, UDP communication, ROS 2, and Xiaomi CyberDog.
 
+The documentation focuses on the configuration, execution, and interpretation of the system architecture. It includes setup guides, network configuration notes, communication workflows, and selected visual reference materials that support the understanding of the implemented AR teleoperation methodology.
 
-This folder contains practical documentation for reproducing the augmented reality teleoperation methodology implemented with Meta Quest 3, Unity, UDP communication, ROS 2, and Xiaomi CyberDog.
-
-
-
-The documentation focuses on the methodological and technical workflow required to configure, execute, and validate the system. It describes the communication channels, network configuration, bridge execution, CyberDog setup, and AR interface deployment.
-
-
-
-\## Documentation scope
-
-
-
-The folder is organized around three documentation areas:
-
-
+## Documentation structure
 
 ```text
-
 docs/
-
-├── setup\_guides/
-
-├── network\_configuration/
-
-└── methodology\_notes/
-
+├── setup_guides/
+├── network_configuration/
+└── methodology_notes/
 ```
 
+## Setup guides
 
-
-\## Setup guides
-
-
-
-The `setup\_guides/` folder contains configuration documents for the main system components:
-
-
+The `setup_guides/` folder contains configuration documents for the main system components:
 
 ```text
-
-unity\_metaquest\_setup.md
-
-ros2\_bridge\_setup.md
-
-cyberdog\_setup.md
-
+unity_metaquest_setup.md
+ros2_bridge_setup.md
+cyberdog_setup.md
 ```
-
-
 
 These documents describe the preparation of the Unity AR interface, the Ubuntu ROS 2 bridge, and the Xiaomi CyberDog platform.
 
+## Network configuration
 
-
-\## Network configuration
-
-
-
-The `network\_configuration/` folder contains technical notes related to communication and connectivity:
-
-
+The `network_configuration/` folder contains technical notes related to communication and connectivity:
 
 ```text
-
-udp\_ports.md
-
-ip\_configuration.md
-
-cyclonedds\_notes.md
-
+udp_ports.md
+ip_configuration.md
+cyclonedds_notes.md
 ```
-
-
 
 These documents describe the UDP ports, IP address configuration, and Cyclone DDS considerations required for communication between Meta Quest 3, the Ubuntu Bridge PC, and CyberDog.
 
+## Methodology notes
 
-
-\## Methodology notes
-
-
-
-The `methodology\_notes/` folder describes the methodological organization of the teleoperation system:
-
-
+The `methodology_notes/` folder describes the methodological organization of the AR teleoperation system:
 
 ```text
-
-teleoperation\_workflow.md
-
-control\_channel.md
-
-visual\_perception\_channel.md
-
+teleoperation_workflow.md
+control_channel.md
+visual_perception_channel.md
 ```
 
+This folder also contains selected reference images that help explain the implemented system, such as the general architecture diagram and the AR interface layout.
 
+## System reference materials
 
-These documents explain the complete AR teleoperation workflow, the control channel, and the visual perception channel.
+The visual materials included in this documentation clarify the implementation methodology and system organization. They include the general AR–ROS 2 teleoperation architecture, the Unity AR interface layout, control and perception workflow references, and system configuration views.
 
+These materials support the reproducibility of the implementation by showing how the main components are organized and connected.
 
-
-\## AR teleoperation workflow
-
-
+## AR teleoperation workflow
 
 The system is structured into two decoupled communication channels:
 
-
-
 ```text
-
 Control channel:
-
 Meta Quest 3 / Unity AR interface
-
-&#x20;       ↓ UDP 5005
-
+        ↓ UDP 5005
 Ubuntu Bridge PC
-
-&#x20;       ↓ ROS 2 control topics
-
+        ↓ ROS 2 control topics
 Xiaomi CyberDog
-
 ```
-
-
 
 ```text
-
 Visual perception channel:
-
 Xiaomi CyberDog camera
-
-&#x20;       ↓ ROS 2 image topics
-
+        ↓ ROS 2 image topics
 Ubuntu Bridge PC
-
-&#x20;       ↓ JPEG compression + UDP 5006
-
+        ↓ JPEG compression + UDP 5006
 Meta Quest 3 / Unity AR interface
-
 ```
-
-
 
 This organization allows the control and visual feedback subsystems to be configured, tested, and evaluated independently.
 
+## Reproducibility purpose
 
+The documentation in this folder supports the reproduction of the AR teleoperation architecture without requiring the full manuscript.
 
-\## Reproducibility purpose
+It provides the technical context required to understand how Unity, Meta Quest 3, UDP communication, ROS 2, and CyberDog are integrated into a functional teleoperation workflow.
 
-
-
-The documentation in this folder supports the reproduction of the AR teleoperation architecture without requiring the full manuscript. It provides the technical context required to understand how Unity, Meta Quest 3, UDP communication, ROS 2, and CyberDog are integrated into a functional teleoperation workflow.
-
-
-
-The folder is intended for methodological documentation, setup procedures, communication notes, and implementation details directly related to reproducing the system.
-
+The folder is oriented toward methodological documentation, setup procedures, communication notes, and implementation reference material directly related to reproducing the system.

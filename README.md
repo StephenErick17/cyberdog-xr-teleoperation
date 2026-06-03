@@ -1,19 +1,19 @@
-# Immersive AR–ROS 2 Teleoperation Architecture for CyberDog
+﻿# Immersive ARâ€“ROS 2 Teleoperation Architecture for CyberDog
 
 This repository contains the main implementation materials associated with an immersive teleoperation architecture for a real quadruped robot, integrating Meta Quest 3, Unity, UDP communication, ROS 2, and Xiaomi CyberDog.
 
-The system was designed as a modular XR–ROS 2 teleoperation platform that enables continuous locomotion control, discrete robot actions, and live RGB/depth visual feedback within a unified immersive interface. The repository is intended to support the reproducibility of the communication architecture, the experimental platform, and the main implementation components reported in the associated research work.
+The system was designed as a modular XRâ€“ROS 2 teleoperation platform that enables continuous locomotion control, discrete robot actions, and live RGB/depth visual feedback within a unified immersive interface. The repository is intended to support the reproducibility of the communication architecture, the experimental platform, and the main implementation components reported in the associated research work.
 
 ## System overview
 
 The proposed architecture follows a decoupled design organized into two functional channels: a control channel and a visual perception channel.
 
 <p align="center">
-  <img src="docs/methodology_notes/architectureJPG2.jpg" alt="AR–ROS 2 teleoperation architecture for CyberDog" width="950">
+  <img src="docs/methodology_notes/architectureJPG2.jpg" alt="ARâ€“ROS 2 teleoperation architecture for CyberDog" width="950">
 </p>
 
 <p align="center">
-  <em>General architecture of the AR–ROS 2 teleoperation system, integrating the Meta Quest 3 client layer, the Unity standalone AR application, the middleware and UDP bridge layer, and the native CyberDog control and perception layer.</em>
+  <em>General architecture of the ARâ€“ROS 2 teleoperation system, integrating the Meta Quest 3 client layer, the Unity standalone AR application, the middleware and UDP bridge layer, and the native CyberDog control and perception layer.</em>
 </p>
 
 The architecture is structured around three main layers. The Meta Quest 3 client layer executes the Unity standalone AR application and provides the operator interface, including locomotion controls, discrete action controls, and RGB/depth video receivers. The middleware and UDP bridge layer receives control packets from Unity, translates locomotion and action commands into CyberDog-compatible ROS 2 messages, and processes visual feedback from the robot. The CyberDog native layer executes locomotion and action commands while providing RGB and depth image streams through ROS 2 topics.
@@ -23,10 +23,10 @@ The system separates command transmission and visual feedback into two independe
 ### Control channel
 
 ```text
-Meta Quest 3 / Unity XR interface
-        ↓ UDP 5005
+Meta Quest 3 / Unity AR interface
+        â†“ UDP 5005
 Ubuntu Bridge PC
-        ↓ ROS 2 control topics
+        â†“ ROS 2 control topics
 Xiaomi CyberDog
 ```
 
@@ -36,10 +36,10 @@ The control channel transmits the operator intention from the Unity-based XR int
 
 ```text
 Xiaomi CyberDog RGB/depth camera
-        ↓ ROS 2 image topics
+        â†“ ROS 2 image topics
 Ubuntu Bridge PC
-        ↓ OpenCV/CvBridge + JPEG compression + UDP 5006
-Meta Quest 3 / Unity XR interface
+        â†“ OpenCV/CvBridge + JPEG compression + UDP 5006
+Meta Quest 3 / Unity AR interface
 ```
 
 The visual perception channel acquires RGB or depth frames from the CyberDog camera topics, processes them on the Ubuntu bridge computer, compresses each frame as JPEG, and sends the resulting stream to the Unity interface for in-headset visualization.
@@ -48,7 +48,7 @@ This separation between control and perception reduces subsystem coupling, simpl
 
 ## Communication design
 
-UDP communication  was adopted between the Meta Quest 3 application and the Ubuntu bridge computer instead of a direct Unity–ROS connection through ROS-TCP-Endpoint. This decision was motivated by the need for a lightweight and controllable architecture for standalone execution on Meta Quest 3, considering the network and permission constraints associated with the Android-based runtime environment.
+UDP communication  was adopted between the Meta Quest 3 application and the Ubuntu bridge computer instead of a direct Unityâ€“ROS connection through ROS-TCP-Endpoint. This decision was motivated by the need for a lightweight and controllable architecture for standalone execution on Meta Quest 3, considering the network and permission constraints associated with the Android-based runtime environment.
 
 The adopted design separates the Unity interface, UDP transmission, command translation, ROS 2 publication, image processing, and video streaming into independent modules. This improves modularity, reproducibility, and practical debugging during experimental operation.
 
@@ -56,7 +56,7 @@ The adopted design separates the Unity interface, UDP transmission, command tran
 
 The experimental platform was composed of three main elements:
 
-- **Meta Quest 3**: standalone XR headset used as the operator interface.
+- **Meta Quest 3**: standalone AR-capable headset used as the operator interface.
 - **Ubuntu Bridge PC**: intermediate computer for UDP communication, ROS 2 bridging, image processing, and video streaming.
 - **Xiaomi CyberDog**: real quadruped robot used for locomotion, discrete action execution, and RGB/depth image acquisition.
 
@@ -78,7 +78,7 @@ In the reported implementation, the bridge computer ran Ubuntu 22.04 with ROS 2 
 
 ```text
 docs/              Architecture diagrams and paper-related figures.
-unity/             Unity C# scripts for the XR teleoperation interface.
+unity/             Unity C# scripts for the AR teleoperation interface.
 ros2_bridge/       ROS 2 bridge scripts for UDP control and video streaming.
 data/              Raw and processed experimental data for methodological reproducibility.
 media/             Demo images or video links.
@@ -86,7 +86,7 @@ media/             Demo images or video links.
 
 ## Main implementation scripts
 
-### Unity XR interface
+### Unity AR interface
 
 ```text
 unity/scripts/CameraUdpReceiver.cs

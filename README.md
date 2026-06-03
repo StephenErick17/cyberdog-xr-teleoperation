@@ -226,7 +226,11 @@ The architecture was validated in an indoor controlled environment using a real 
 
 ## Reproducibility scope
 
-This repository does not include the complete Unity project, all raw experimental logs, or participant-level questionnaire data. Instead, it provides the essential implementation scripts, configuration notes, and repository structure required to understand and reproduce the main communication logic of the proposed system.
+This repository provides the core materials required to understand and reproduce the methodological workflow of the proposed AR teleoperation architecture.
+
+The repository includes the Unity C# scripts used for the AR interface, the ROS 2 bridge scripts for UDP-based control and video streaming, setup documentation, network configuration notes, raw and processed experimental data, and external demonstration links.
+
+The Unity materials are provided at the implementation-script level to keep the repository lightweight and focused on the communication, control, and perception workflow. The scene-level Unity project can be incorporated as a structured release if full interface reconstruction is required.
 
 ## Data availability
 

@@ -234,7 +234,9 @@ The Unity materials are provided at the implementation-script level to keep the 
 
 ## Data availability
 
-The source code, configuration files, and implementation scripts used in this study are available in this repository. The experimental datasets generated during the study are available from the corresponding author upon reasonable request.
+This repository includes the core implementation scripts, configuration notes, raw and processed technical datasets, anonymized user-evaluation files, and external demonstration links associated with the AR teleoperation architecture.
+
+The technical datasets include control-channel logs, RGB/depth video acquisition logs, processed video records, and user-centered evaluation data related to NASA-TLX and SUS. These materials are organized to support methodological transparency and independent reconstruction of the reported metrics.
 
 ## Ethical scope
 

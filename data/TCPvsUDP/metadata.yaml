@@ -1,0 +1,22 @@
+condition_id: M2
+condition_name: ros_tcp_endpoint_control_18hz
+method: ROS-TCP-Endpoint
+channel: control
+robot: CyberDog
+interface: Meta Quest 3
+bridge_os: Ubuntu 22.04
+ros2_distribution: Humble
+frequency_nominal_hz: 18
+duration_s: 59.92
+repetition: R01
+
+bandwidth_limit_mbps: none
+added_delay_ms: 0
+added_jitter_ms: 0
+packet_loss_percent: 0
+
+network_tool: none
+network_interface: wlan0
+date_time: 2026-06-21 10:07:59
+operator: Erick
+notes: Control channel only; RGB/depth not evaluated. ROS-TCP-Endpoint was evaluated as an alternative Unity--ROS communication method using 1080 commands sent, with 1014 valid commands considered for latency analysis.

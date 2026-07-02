@@ -1,0 +1,22 @@
+condition_id: C2
+condition_name: packet_loss_3percent
+method: UDP
+channel: control
+robot: CyberDog
+interface: Meta Quest 3
+bridge_os: Ubuntu 22.04
+ros2_distribution: Humble
+frequency_nominal_hz: 18
+duration_s: 60
+repetition: R01
+
+bandwidth_limit_mbps: none
+added_delay_ms: 0
+added_jitter_ms: 0
+packet_loss_percent: 3
+
+network_tool: tc/netem
+network_interface: wlan0
+date_time: 2026-06-29 08:30:00
+operator: Erick
+notes: Control channel only; RGB/depth not evaluated. A 3% packet loss was induced to evaluate the sensitivity of the UDP control channel under moderate packet loss.

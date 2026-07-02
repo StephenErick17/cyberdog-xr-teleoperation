@@ -1,0 +1,22 @@
+condition_id: C3
+condition_name: high_latency_100ms
+method: UDP
+channel: control
+robot: CyberDog
+interface: Meta Quest 3
+bridge_os: Ubuntu 22.04
+ros2_distribution: Humble
+frequency_nominal_hz: 18
+duration_s: 60
+repetition: R01
+
+bandwidth_limit_mbps: none
+added_delay_ms: 100
+added_jitter_ms: 0
+packet_loss_percent: 0
+
+network_tool: tc/netem
+network_interface: wlan0
+date_time: 2026-06-29 08:30:00
+operator: Erick
+notes: Control channel only; RGB/depth not evaluated in this robustness test.

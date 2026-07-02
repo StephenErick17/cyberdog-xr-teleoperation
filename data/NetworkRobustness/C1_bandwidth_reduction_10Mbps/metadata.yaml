@@ -1,0 +1,22 @@
+condition_id: C1
+condition_name: bandwidth_reduction_10Mbps
+method: UDP
+channel: control
+robot: CyberDog
+interface: Meta Quest 3
+bridge_os: Ubuntu 22.04
+ros2_distribution: Humble
+frequency_nominal_hz: 18
+duration_s: 60
+repetition: R01
+
+bandwidth_limit_mbps: 10
+added_delay_ms: 0
+added_jitter_ms: 0
+packet_loss_percent: 0
+
+network_tool: tc/tbf
+network_interface: wlan0
+date_time: 2026-06-29 08:30:00
+operator: Erick
+notes: Control channel only; RGB/depth not evaluated. Bandwidth was limited to 10 Mbps, approximately 50% of the nominal 18.67 Mbps network bandwidth measured in the baseline condition.

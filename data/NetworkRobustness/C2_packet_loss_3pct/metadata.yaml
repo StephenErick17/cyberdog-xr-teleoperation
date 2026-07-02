@@ -17,6 +17,6 @@ packet_loss_percent: 3
 
 network_tool: tc/netem
 network_interface: wlan0
-date_time: 2026-06-29 08:30:00
+date_time: 2026-06-21 10:17:59
 operator: Erick
 notes: Control channel only; RGB/depth not evaluated. A 3% packet loss was induced to evaluate the sensitivity of the UDP control channel under moderate packet loss.

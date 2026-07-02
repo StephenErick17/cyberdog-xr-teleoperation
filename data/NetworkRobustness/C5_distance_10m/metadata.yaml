@@ -22,6 +22,6 @@ fixed_devices: Meta Quest 3, bridge Ubuntu, router/hotspot
 distance_m: 10
 line_of_sight: yes
 obstacles: none
-date_time: 2026-06-29 08:30:00
+date_time: 2026-06-21 10:33:00
 operator: Erick
 notes: Control channel only; RGB/depth not evaluated. The CyberDog was placed 10 m away from the bridge/router to evaluate distance-induced wireless degradation in the bridge--robot link.

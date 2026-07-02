@@ -17,6 +17,6 @@ packet_loss_percent: 0
 
 network_tool: tc/netem
 network_interface: wlan0
-date_time: 2026-06-29 08:30:00
+date_time: 2026-06-21 10:23:00
 operator: Erick
 notes: Control channel only; RGB/depth not evaluated in this robustness test.
